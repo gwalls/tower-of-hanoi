@@ -53,7 +53,7 @@ class BuildTower {
    */
   nextTower(currentIndex) {
     if (currentIndex >= this.towers.length - 1) {
-      return -1;
+      return 0;
     }
     return currentIndex + 1;
   }
@@ -62,16 +62,18 @@ class BuildTower {
     // larger towers cannot go on top of smaller towers
 
     let index = startRod;
-    while (this.towers[destRod].length < this.allDisks.length ) {
+    while (this.towers[destRod].length < this.allDisks.length) {
       const tower = this.towers[index];
       if (tower.length > 0) {
         const topDiskIndex = tower.length - 1;
         const topDisk = tower[topDiskIndex];
 
-        for (let otherRodIndex = index + 1; otherRodIndex !== index; otherRodIndex++) {
+        let otherRodIndex = this.nextTower(index);
+        do {
           if (topDisk < this.peek(this.towers[otherRodIndex])) {
             this.moveDisk(tower, this.towers[otherRodIndex]);
             this.numMoves++;
+            index = otherRodIndex;
             this.displayTower();
             console.log('Moves: ' + this.numMoves);
             break;
@@ -79,11 +81,11 @@ class BuildTower {
 
           // start the dest loop over
           otherRodIndex = this.nextTower(otherRodIndex);
-        }
+        } while (otherRodIndex !== index);
       }
 
       // start the rod loop over and move to the next
-      index = this.nextTower(index) + 1;
+      index = this.nextTower(index);
     }
   }
 
