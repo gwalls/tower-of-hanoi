@@ -47,7 +47,7 @@ class BuildTower {
   }
 
   /**
-   * Return the index to the next tower or the start again (-1)
+   * Return the index to the next tower; will start over again (-1)
    * @param currentIndex
    * @return {number|*}
    */
@@ -58,9 +58,12 @@ class BuildTower {
     return currentIndex + 1;
   }
 
+  /**
+   * Sorts the tower from a starting rod to a destination rod, following the rules
+   * @param startRod
+   * @param destRod
+   */
   sortTower(startRod = 0, destRod = this.towers.length - 1) {
-    // larger towers cannot go on top of smaller towers
-
     let index = startRod;
     while (this.towers[destRod].length < this.allDisks.length) {
       const tower = this.towers[index];
